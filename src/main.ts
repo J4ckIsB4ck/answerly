@@ -6,8 +6,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const config = new DocumentBuilder()
-    .setTitle('Answerly API')
-    .setDescription('API для форума Answerly')
+    .setTitle('Answerly')
+    .setDescription('')
     .setVersion('1.0')
     .build();
 
