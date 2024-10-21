@@ -1,6 +1,7 @@
 import { Controller, Get, Param, Post, Body } from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { Comment } from './comment.entity';
+import { CommentDto } from './dto/comment.dto';
 
 @Controller('comments')
 export class CommentsController {
@@ -17,7 +18,7 @@ export class CommentsController {
   }
 
   @Post()
-  create(@Body() comment: Partial<Comment>): Promise<Comment> {
-    return this.commentsService.create(comment);
+  create(@Body() commentDto: CommentDto): Promise<Comment> {
+    return this.commentsService.create(commentDto);
   }
 }

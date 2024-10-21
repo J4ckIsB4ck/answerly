@@ -1,6 +1,7 @@
 import { Controller, Get, Param, Post, Body } from '@nestjs/common';
 import { AnswersService } from './answers.service';
 import { Answer } from './answer.entity';
+import { AnswerDto } from './dto/answer.dto';
 
 @Controller('answers')
 export class AnswersController {
@@ -17,7 +18,7 @@ export class AnswersController {
   }
 
   @Post()
-  create(@Body() answer: Partial<Answer>): Promise<Answer> {
-    return this.answersService.create(answer);
+  create(@Body() answerDto: AnswerDto): Promise<Answer> {
+    return this.answersService.create(answerDto);
   }
 }

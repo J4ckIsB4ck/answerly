@@ -11,7 +11,7 @@ import { VotesModule } from './votes/votes.module';
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'localhost',
-      port: 5432,
+      port: 5437,
       username: 'answerly',
       password: 'answerly',
       database: 'answerlyq',
