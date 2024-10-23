@@ -26,7 +26,7 @@ export class QuestionsController {
   updateStatus(
     @Param('id') id: number,
     @Body() updateStatusDto: UpdateQuestionStatusDto,
-  ): Promise<any> {
+  ): Promise<Question> {
     return this.questionsService.updateStatus(id, updateStatusDto.status);
   }
 }

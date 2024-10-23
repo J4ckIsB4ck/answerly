@@ -2,11 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Question } from './question.entity';
+import { QuestionDto } from './dto/question.dto';
 
 @Injectable()
 export class QuestionsService {
   constructor(
-    @InjectRepository(Question) private questionsRepository: Repository<Question>,
+    @InjectRepository(Question)
+    private readonly questionsRepository: Repository<Question>,
   ) {}
 
   findAll(): Promise<Question[]> {
@@ -14,14 +16,20 @@ export class QuestionsService {
   }
 
   findOne(id: number): Promise<Question> {
-    return this.questionsRepository.findOne({ where: { id } });
+    return this.questionsRepository.findOneBy({ id });
   }
 
-  create(question: Partial<Question>): Promise<Question> {
+  async create(questionDto: QuestionDto): Promise<Question> {
+    const question = this.questionsRepository.create(questionDto);
     return this.questionsRepository.save(question);
   }
 
-  updateStatus(id: number, status: string): Promise<any> {
-    return this.questionsRepository.update(id, { status });
+  async updateStatus(id: number, status: string): Promise<Question> {
+    const question = await this.findOne(id);
+    if (!question) {
+      throw new Error('Question not found');
+    }
+    question.status = status;
+    return this.questionsRepository.save(question);
   }
 }
