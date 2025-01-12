@@ -2,7 +2,8 @@ import { Controller, Get, Param, Post, Put, Body } from '@nestjs/common';
 import { QuestionsService } from './questions.service';
 import { Question } from './question.entity';
 import { QuestionDto, UpdateQuestionStatusDto } from './dto/question.dto';
-
+import { ApiTags } from '@nestjs/swagger';
+@ApiTags('questions')
 @Controller('questions')
 export class QuestionsController {
   constructor(private readonly questionsService: QuestionsService) {}
