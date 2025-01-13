@@ -10,7 +10,7 @@ export class QuestionsService {
   constructor(
     @InjectRepository(Question)
     private readonly questionsRepository: Repository<Question>,
-    @InjectRepository(User) // Инжектируем репозиторий пользователей
+    @InjectRepository(User)
     private readonly userRepository: Repository<User>,
   ) {}
 
