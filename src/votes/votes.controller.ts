@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Body } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body, Put } from '@nestjs/common';
 import { VotesService } from './votes.service';
 import { Vote } from './vote.entity';
 import { VoteDto } from './dto/vote.dto';
@@ -22,5 +22,10 @@ export class VotesController {
   @Post()
   create(@Body() voteDto: VoteDto): Promise<Vote> {
     return this.votesService.create(voteDto);
+  }
+
+  @Put(':id')
+  update(@Param('id') id: number, @Body() voteDto: VoteDto): Promise<Vote> {
+    return this.votesService.update(id, voteDto);
   }
 }
