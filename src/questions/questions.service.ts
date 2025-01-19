@@ -45,4 +45,27 @@ export class QuestionsService {
     question.status = status;
     return this.questionsRepository.save(question);
   }
+  async update(id: number, updateData: Partial<QuestionDto>): Promise<Question> {
+    const question = await this.questionsRepository.findOne({
+      where: { id },
+      relations: ['user'],
+    });
+
+    if (!question) {
+      throw new Error(`Question with ID ${id} not found`);
+    }
+
+    if (updateData.title !== undefined) {
+      question.title = updateData.title;
+    }
+    if (updateData.body !== undefined) {
+      question.body = updateData.body;
+    }
+    if (updateData.status !== undefined) {
+      question.status = updateData.status;
+    }
+
+    return this.questionsRepository.save(question);
+  }
+
 }

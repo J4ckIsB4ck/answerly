@@ -21,7 +21,7 @@ export class QuestionDto {
 }
 
 export class UpdateQuestionStatusDto {
-  @ApiProperty({ example: 'resolved', description: 'New status of the question' })
+  @ApiProperty({ example: '', description: 'New status of the question' })
   @IsString()
   @Length(1, 50)
   status: string;

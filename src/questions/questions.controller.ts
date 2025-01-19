@@ -1,4 +1,5 @@
 import { Controller, Get, Param, Post, Put, Body } from '@nestjs/common';
+import { UpdateQuestionDto } from './dto/update-question.dto';
 import { QuestionsService } from './questions.service';
 import { Question } from './question.entity';
 import { QuestionDto, UpdateQuestionStatusDto } from './dto/question.dto';
@@ -29,5 +30,12 @@ export class QuestionsController {
     @Body() updateStatusDto: UpdateQuestionStatusDto,
   ): Promise<Question> {
     return this.questionsService.updateStatus(id, updateStatusDto.status);
+  }
+  @Put(':id')
+  async update(
+    @Param('id') id: number,
+    @Body() updateData: UpdateQuestionDto,
+  ): Promise<Question> {
+    return await this.questionsService.update(id, updateData);
   }
 }
