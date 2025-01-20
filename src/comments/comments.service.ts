@@ -46,4 +46,30 @@ export class CommentsService {
 
     return this.commentsRepository.save(comment);
   }
+
+  async update(id: number, updateData: Partial<CommentDto>): Promise<Comment> {
+    const comment = await this.commentsRepository.findOne({
+      where: { id },
+      relations: ['user', 'answer'],
+    });
+
+    if (!comment) {
+      throw new NotFoundException(`Comment with ID ${id} not found`);
+    }
+
+    if (updateData.body !== undefined) {
+      comment.body = updateData.body;
+    }
+
+    return this.commentsRepository.save(comment);
+  }
+
+  async remove(id: number): Promise<void> {
+    const comment = await this.commentsRepository.findOne({ where: { id } });
+    if (!comment) {
+      throw new NotFoundException(`Comment with ID ${id} not found`);
+    }
+    await this.commentsRepository.remove(comment);
+  }
+
 }

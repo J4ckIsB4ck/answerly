@@ -7,10 +7,10 @@ export class Comment {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => Answer, answer => answer.id)
+  @ManyToOne(() => Answer, answer => answer.id, { onDelete: 'CASCADE' })
   answer: Answer;
 
-  @ManyToOne(() => User, user => user.id)
+  @ManyToOne(() => User, user => user.id, { onDelete: 'CASCADE' })
   user: User;
 
   @Column('text')

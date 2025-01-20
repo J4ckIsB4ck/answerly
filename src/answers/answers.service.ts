@@ -47,4 +47,31 @@ export class AnswersService {
 
     return this.answersRepository.save(answer);
   }
+  async update(id: number, updateData: Partial<AnswerDto>): Promise<Answer> {
+    const answer = await this.answersRepository.findOne({
+      where: { id },
+      relations: ['user', 'question'],
+    });
+
+    if (!answer) {
+      throw new NotFoundException(`Answer with ID ${id} not found`);
+    }
+
+    if (updateData.body !== undefined) {
+      answer.body = updateData.body;
+    }
+    if (updateData.is_accepted !== undefined) {
+      answer.is_accepted = updateData.is_accepted;
+    }
+
+    return this.answersRepository.save(answer);
+  }
+  async remove(id: number): Promise<void> {
+    const comment = await this.answersRepository.findOne({ where: { id } });
+    if (!comment) {
+      throw new NotFoundException(`Comment with ID ${id} not found`);
+    }
+    await this.answersRepository.remove(comment);
+  }
+
 }

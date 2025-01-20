@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Question } from './question.entity';
@@ -27,7 +27,7 @@ export class QuestionsService {
 
     const user = await this.userRepository.findOneBy({ id: userId });
     if (!user) {
-      throw new Error(`User with ID ${userId} not found`);
+      throw new NotFoundException(`User with ID ${userId} not found`);
     }
 
     const question = this.questionsRepository.create({
@@ -36,15 +36,17 @@ export class QuestionsService {
     });
     return this.questionsRepository.save(question);
   }
+
   async updateStatus(id: number, status: string): Promise<Question> {
     const question = await this.findOne(id);
     if (!question) {
-      throw new Error(`Question with ID ${id} not found`);
+      throw new NotFoundException(`Question with ID ${id} not found`);
     }
 
     question.status = status;
     return this.questionsRepository.save(question);
   }
+
   async update(id: number, updateData: Partial<QuestionDto>): Promise<Question> {
     const question = await this.questionsRepository.findOne({
       where: { id },
@@ -52,7 +54,7 @@ export class QuestionsService {
     });
 
     if (!question) {
-      throw new Error(`Question with ID ${id} not found`);
+      throw new NotFoundException(`Question with ID ${id} not found`);
     }
 
     if (updateData.title !== undefined) {
@@ -68,4 +70,13 @@ export class QuestionsService {
     return this.questionsRepository.save(question);
   }
 
+  async delete(id: number): Promise<void> {
+    const question = await this.findOne(id);
+
+    if (!question) {
+      throw new NotFoundException(`Question with ID ${id} not found`);
+    }
+
+    await this.questionsRepository.remove(question);
+  }
 }

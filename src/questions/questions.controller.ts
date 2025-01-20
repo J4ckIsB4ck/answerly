@@ -1,9 +1,9 @@
-import { Controller, Get, Param, Post, Put, Body } from '@nestjs/common';
-import { UpdateQuestionDto } from './dto/update-question.dto';
+import { Controller, Get, Param, Post, Put, Body, Delete } from '@nestjs/common';
 import { QuestionsService } from './questions.service';
 import { Question } from './question.entity';
 import { QuestionDto, UpdateQuestionStatusDto } from './dto/question.dto';
 import { ApiTags } from '@nestjs/swagger';
+
 @ApiTags('questions')
 @Controller('questions')
 export class QuestionsController {
@@ -31,11 +31,18 @@ export class QuestionsController {
   ): Promise<Question> {
     return this.questionsService.updateStatus(id, updateStatusDto.status);
   }
+
   @Put(':id')
   async update(
     @Param('id') id: number,
-    @Body() updateData: UpdateQuestionDto,
+    @Body() updateData: QuestionDto,
   ): Promise<Question> {
     return await this.questionsService.update(id, updateData);
+  }
+
+  @Delete(':id')
+  async delete(@Param('id') id: number): Promise<{ message: string }> {
+    await this.questionsService.delete(id);
+    return { message: `Question with ID ${id} has been deleted.` };
   }
 }
