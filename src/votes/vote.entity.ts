@@ -9,7 +9,7 @@ export class Vote {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => User, user => user.id)
+  @ManyToOne(() => User, user => user.id, { onDelete: 'CASCADE' })
   user: User;
 
   @ManyToOne(() => Question, question => question.id, { nullable: true })

@@ -1,4 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, OneToMany } from 'typeorm';
+import { Question } from '../questions/question.entity';
+import { Answer } from '../answers/answer.entity';
+import { Comment } from '../comments/comment.entity';
 
 @Entity('users')
 export class User {
@@ -16,4 +19,13 @@ export class User {
 
   @Column({ default: 0 })
   reputation: number;
+
+  @OneToMany(() => Question, question => question.user, { cascade: true, onDelete: 'CASCADE' })
+  questions: Question[];
+
+  @OneToMany(() => Answer, answer => answer.user, { cascade: true, onDelete: 'CASCADE' })
+  answers: Answer[];
+
+  @OneToMany(() => Comment, comment => comment.user, { cascade: true, onDelete: 'CASCADE' })
+  comments: Comment[];
 }
